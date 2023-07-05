@@ -6,7 +6,7 @@ ARDIANSYAH
 
 201011400420
 
-#Requirements
+# Requirements
 
 Python 3.10.7
 
@@ -17,6 +17,7 @@ numpy=1.25.0
 opencv-python=4.8.0.74
 
 
-##Hasil Program
+## Hasil Program
+
 
 
