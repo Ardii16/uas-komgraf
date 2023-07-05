@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>Crop Image</title>
+    <title>UAS KOMPUTER GRAFIK</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.0/css/bootstrap.min.css">
     <style>
         .col {
@@ -13,51 +13,55 @@
 </head>
 <body>
     <div class="container py-5">
-        <h1 class="mb-4">Crop Image</h1>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="col">
-                    <h2>Select Image</h2>
-                    <form id="cropForm" enctype="multipart/form-data">
-                        <div class="mb-3">
-                            <label for="file" class="form-label">Select image:</label>
-                            <input type="file" name="file" id="file" class="form-control-file" onchange="previewImage(event)">
-                        </div>
-                        <div class="mb-3" id="imagePreview"></div>
-                        <div class="mb-3" id="cropOptions" style="display: none;">
-                            <label for="position" class="form-label">Crop position:</label>
-                            <select name="position" id="position" class="form-select">
-                                <option value="top_left">Top Left</option>
-                                <option value="top_center">Top Center</option>
-                                <option value="top_right">Top Right</option>
-                                <option value="center_left">Center Left</option>
-                                <option value="center">Center</option>
-                                <option value="center_right">Center Right</option>
-                                <option value="bottom_left">Bottom Left</option>
-                                <option value="bottom_center">Bottom Center</option>
-                                <option value="bottom_right">Bottom Right</option>
-                            </select>
-                        </div>
-                        <div class="mb-3" id="sizeInput" style="display: none;">
-                            <label for="size" class="form-label">Crop size:</label>
-                            <input type="number" name="size" id="size" class="form-control" min="1" value="100">
-                        </div>
-                        <button type="button" class="btn btn-primary" onclick="cropImage()">Crop</button>
+       <center> <h1 class="mb-4">UAS ARDIANSYAH KOMPUTER GRAFIK</h1> </center>
+            <div class="row">
+                    <div class="col">
+                        <h2>Select an Image to Upload and Display</h2>
+                        <form id="cropForm" enctype="multipart/form-data">
+                            <div class="col">
+                                <label for="file" class="form-label"></label>
+                                <input type="file" name="file" id="file" class="form-control-file" onchange="previewImage(event)">
+                            </div>
+                            <div class="mb-3" id="imagePreview"></div>
+                            <div class="mb-3" id="cropOptions" style="display: none;">
+                                <label for="position" class="form-label">Crop position</label>
+                                <select name="position" id="position" class="form-select">
+                                    <option value="top_left">Top Left</option>
+                                    <option value="top_center">Top Center</option>
+                                    <option value="top_right">Top Right</option>
+                                    <option value="center_left">Center Left</option>
+                                    <option value="center">Center</option>
+                                    <option value="center_right">Center Right</option>
+                                    <option value="bottom_left">Bottom Left</option>
+                                    <option value="bottom_center">Bottom Center</option>
+                                    <option value="bottom_right">Bottom Right</option>
+                                </select>
+                            </div>
+                            <div class="mb-3" id="sizeInput" style="display: none;">
+                                <label for="size" class="form-label">Crop size</label>
+                                <input type="number" name="size" id="size" class="form-control" min="1" >
+                            </div>
+                            <div class="" id="cropButton" style="display: none;">
+                            <button type="button" class="btn btn-primary" onclick="cropImage()">Crop Image</button>    
                     </form>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="col">
-                    <h2>Cropped Result</h2>
-                    <div id="croppedImage"></div>
-                    <div class="d-flex justify-content-around mt-4">
-                        <button class="btn btn-primary download-btn" id="downloadMarkdownBtn" onclick="saveAsMarkdown()" style="display: none;">Download Markdown</button>
-                        <button class="btn btn-primary download-btn" id="downloadImageBtn" onclick="saveAsImage()" style="display: none;">Download Cropped Image</button>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
+    
+            <div class="container py-5">
+                <div class="row">
+                    <div class="col" id="croppedResult" style="display: none;">
+                    <h2>Cropped Result</h2>
+                    <div id="croppedImage"></div>
+                    <div class="d-flex justify-content-around mt-4">
+                        <button class="btn btn-primary download-btn" id="downloadImageBtn" onclick="saveAsImage()" style="display: none;">Download Cropped Image</button>
+                        <button type="button" class="btn btn-primary" onclick="resetForm()">Menu</button> 
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.0/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -72,10 +76,12 @@
                 document.getElementById("cropOptions").style.display = "block";
                 document.getElementById("sizeInput").style.display = "block";
                 document.getElementById("size").max = Math.min(imgElement.naturalWidth, imgElement.naturalHeight);
+                document.getElementById("cropButton").style.display = "inline-block";
             }
             reader.readAsDataURL(event.target.files[0]);
+           
         }
-
+       
         function cropImage() {
             var sizeInput = document.getElementById("size");
             var size = parseInt(sizeInput.value, 10);
@@ -100,32 +106,22 @@
                     imgElement.style.maxWidth = "500px";
                     document.getElementById("croppedImage").innerHTML = "";
                     document.getElementById("croppedImage").appendChild(imgElement);
-                    document.getElementById("downloadMarkdownBtn").style.display = "inline-block";
                     document.getElementById("downloadImageBtn").style.display = "inline-block";
+                    document.getElementById("croppedResult").style.display = "block";
                 }
             };
             xhr.send(formData);
+             
         }
 
-        function saveAsMarkdown() {
-            var fileName = "crop_image.md";
-            var markdownContent = `# Crop Image
-## Selected Image:
-![Selected Image](data:image/jpeg;base64,${getImageBase64("imagePreview")})
-## Crop Position:
-- ${document.getElementById("position").value}
-## Crop Size:
-- ${document.getElementById("size").value}
-## Cropped Image:
-![Cropped Image](data:image/jpeg;base64,${getImageBase64("croppedImage")})`;
-
-            var element = document.createElement('a');
-            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(markdownContent));
-            element.setAttribute('download', fileName);
-            element.style.display = 'none';
-            document.body.appendChild(element);
-            element.click();
-            document.body.removeChild(element);
+        function resetForm() {
+            document.getElementById("cropForm").reset(); // Mengatur ulang form
+            document.getElementById("imagePreview").innerHTML = ""; // Menghapus pratinjau gambar
+            document.getElementById("cropOptions").style.display = "none"; // Menyembunyikan opsi crop
+            document.getElementById("sizeInput").style.display = "none"; // Menyembunyikan input ukuran crop
+            document.getElementById("cropButton").style.display = "none"; // Menyembunyikan tombol crop
+            document.getElementById("croppedResult").style.display = "none"; // Menyembunyikan hasil cropping
+            document.getElementById("downloadImageBtn").style.display = "none"; // Menyembunyikan tombol download
         }
 
         function saveAsImage() {
@@ -139,6 +135,9 @@
             element.click();
             document.body.removeChild(element);
         }
+
+        
+
 
         function getImageBase64(elementId) {
             return document.getElementById(elementId).querySelector("img").src.split(",")[1];
